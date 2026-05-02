@@ -1,0 +1,63 @@
+# 환경 변수
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.local.example
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+.npm
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 로그
+*.log
+npm-debug.log*
+logs/
+
+# 임시 파일
+tmp/
+temp/
+*.tmp
+
+# 빌드 캐시
+.turbo/
+
+# Claude 로컬 설정 (개인 권한 설정)
+.claude/settings.local.json
