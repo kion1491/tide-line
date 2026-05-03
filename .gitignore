@@ -61,3 +61,8 @@ temp/
 
 # Claude 로컬 설정 (개인 권한 설정)
 .claude/settings.local.json
+
+# MCP / Playwright 검수 생성 파일
+.mcp.json
+.playwright-mcp/
+inspection-*.png
