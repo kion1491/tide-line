@@ -30,13 +30,14 @@ from app.services.chart_data import build_chart_data
 # ── 캐시 ─────────────────────────────────────────────────────────────
 
 _cache: dict[str, tuple[datetime, Any]] = {}
+_cache_lock = asyncio.Lock()
 CACHE_TTL = 600
 
 
 def _get_cache(key: str) -> Any | None:
     if key in _cache:
         ts, val = _cache[key]
-        if (datetime.now() - ts).seconds < CACHE_TTL:
+        if (datetime.now() - ts).total_seconds() < CACHE_TTL:
             return val
     return None
 
@@ -314,6 +315,10 @@ def _compute_relative_strength(daily: pd.DataFrame, etf_ticker: str) -> tuple[di
 
 # ── 3축 산출 함수 ────────────────────────────────────────────────────
 
+def _get_item(items: list[dict], item_id: int) -> dict:
+    return next(i for i in items if i["id"] == item_id)
+
+
 def _compute_phase(items: list[dict]) -> str:
     """
     핵심 신호 = item1(주봉 구조) AND item3(200일선)
@@ -321,9 +326,9 @@ def _compute_phase(items: list[dict]) -> str:
     caution_raw:   핵심 중 하나만 True, 또는 둘 다인데 ADX 미통과
     healthy_raw:   핵심 신호 0개
     """
-    core_weekly = items[0]["checked"]   # id=1
-    core_ma200 = items[2]["checked"]    # id=3
-    adx_pass = items[6]["checked"]      # id=7
+    core_weekly = _get_item(items, 1)["checked"]
+    core_ma200  = _get_item(items, 3)["checked"]
+    adx_pass    = _get_item(items, 7)["checked"]
 
     core_both = core_weekly and core_ma200
     core_any = core_weekly or core_ma200
@@ -516,7 +521,8 @@ def _compose_interpretation(
 class DiagnosisService:
     async def diagnose(self, ticker: str) -> dict:
         cache_key = f"diagnose_v3:{ticker}"
-        cached = _get_cache(cache_key)
+        async with _cache_lock:
+            cached = _get_cache(cache_key)
         if cached:
             return cached
 
@@ -524,7 +530,8 @@ class DiagnosisService:
         result = await loop.run_in_executor(
             None, functools.partial(self._run_diagnosis, ticker)
         )
-        _set_cache(cache_key, result)
+        async with _cache_lock:
+            _set_cache(cache_key, result)
         return result
 
     def _run_diagnosis(self, ticker: str) -> dict:

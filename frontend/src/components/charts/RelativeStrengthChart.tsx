@@ -6,7 +6,7 @@ import {
   LineSeries,
   LineStyle,
 } from "lightweight-charts";
-import { BASE_CHART_OPTIONS } from "./chartUtils";
+import { BASE_CHART_OPTIONS, toChartTime } from "./chartUtils";
 import type { IndicatorPoint } from "@/types";
 
 interface RelativeStrengthChartProps {
@@ -57,7 +57,7 @@ export default function RelativeStrengthChart({
       indexData
         .filter((d) => d.value !== null)
         .map((d) => ({
-          time: d.time as unknown as import("lightweight-charts").Time,
+          time: toChartTime(d.time),
           value: d.value as number,
         }))
     );
@@ -75,7 +75,7 @@ export default function RelativeStrengthChart({
       stockData
         .filter((d) => d.value !== null)
         .map((d) => ({
-          time: d.time as unknown as import("lightweight-charts").Time,
+          time: toChartTime(d.time),
           value: d.value as number,
         }))
     );

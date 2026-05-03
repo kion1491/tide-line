@@ -6,7 +6,7 @@ import {
   LineSeries,
   HistogramSeries,
 } from "lightweight-charts";
-import { BASE_CHART_OPTIONS } from "./chartUtils";
+import { BASE_CHART_OPTIONS, toChartTime } from "./chartUtils";
 import type { OhlcPoint, IndicatorPoint } from "@/types";
 
 interface VolumeOhlcChartProps {
@@ -43,7 +43,7 @@ export default function VolumeOhlcChart({
     const validObv = obv
       .filter((d) => d.value !== null)
       .map((d) => ({
-        time: d.time as unknown as import("lightweight-charts").Time,
+        time: toChartTime(d.time),
         value: d.value as number,
       }));
     obvSeries.setData(validObv);
@@ -56,7 +56,7 @@ export default function VolumeOhlcChart({
     );
 
     const volData = ohlc.map((d) => ({
-      time: d.time as unknown as import("lightweight-charts").Time,
+      time: toChartTime(d.time),
       value: d.volume ?? 0,
       // 상승봉=빨강, 하락봉=파랑 (한국 기준)
       color: d.close >= d.open ? "#fca5a5" : "#93c5fd",

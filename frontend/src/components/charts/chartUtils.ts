@@ -1,4 +1,6 @@
-import type { DeepPartial, ChartOptions } from "lightweight-charts";
+import type { DeepPartial, ChartOptions, Time } from "lightweight-charts";
+
+export const toChartTime = (t: string): Time => t as Time;
 
 export const BASE_CHART_OPTIONS: DeepPartial<ChartOptions> = {
   layout: {

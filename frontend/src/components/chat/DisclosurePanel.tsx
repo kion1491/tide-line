@@ -25,7 +25,10 @@ export default function DisclosurePanel({ ticker }: DisclosurePanelProps) {
 
     getDisclosures(ticker, 60)
       .then(setRows)
-      .catch((e) => setError(e.message ?? "공시 목록 조회 실패"))
+      .catch((err) => {
+        const message = err instanceof Error ? err.message : "공시 목록 조회 실패";
+        setError(message);
+      })
       .finally(() => setIsLoading(false));
   }, [ticker]);
 

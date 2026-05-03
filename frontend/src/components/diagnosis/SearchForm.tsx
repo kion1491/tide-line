@@ -109,6 +109,10 @@ export default function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
     onSubmit(ticker);
   }
 
+  useEffect(() => {
+    return () => clearTimeout(debounceRef.current);
+  }, []);
+
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
     function onPointerDown(e: PointerEvent) {

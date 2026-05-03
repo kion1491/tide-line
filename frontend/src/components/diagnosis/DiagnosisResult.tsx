@@ -1,5 +1,3 @@
-"use client";
-
 import type { DiagnosisResult as DiagnosisResultType, DiagnosisItem } from "@/types";
 import SummaryCard from "./SummaryCard";
 import ChecklistCategory from "./ChecklistCategory";

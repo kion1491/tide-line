@@ -1,5 +1,3 @@
-"use client";
-
 import type { DiagnosisItem, ChartData } from "@/types";
 import ChecklistItem from "./ChecklistItem";
 

@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from slowapi.util import get_remote_address
@@ -22,7 +24,6 @@ async def diagnose(request: Request, body: DiagnoseRequest) -> dict:
     """
     ticker = body.ticker.strip()
 
-    import re
     if not re.match(r"^\d{6}$", ticker):
         raise HTTPException(status_code=400, detail="종목 코드는 6자리 숫자여야 합니다")
 

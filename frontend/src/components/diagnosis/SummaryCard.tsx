@@ -1,5 +1,3 @@
-"use client";
-
 import type { DiagnosisResult, Phase, SeverityLevel, DurationStage } from "@/types";
 import RelativeStrengthChart from "@/components/charts/RelativeStrengthChart";
 
@@ -14,8 +12,8 @@ const PHASE_THEME: Record<Phase, { label: string; sub: string; bg: string; ring:
 const SEVERITY_BADGE: Record<SeverityLevel, string> = {
   low:     "bg-emerald-500 text-white",
   mid:     "bg-amber-400 text-white",
-  high:    "bg-red-50 text-red-600",
-  extreme: "bg-red-50 text-red-600",
+  high:    "bg-orange-500 text-white",
+  extreme: "bg-red-600 text-white",
 };
 
 const SEVERITY_BAR: Record<SeverityLevel, string> = {

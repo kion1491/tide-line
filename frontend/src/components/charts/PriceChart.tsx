@@ -7,7 +7,7 @@ import {
   LineSeries,
   LineStyle,
 } from "lightweight-charts";
-import { BASE_CHART_OPTIONS, KRW_PRICE_FORMAT } from "./chartUtils";
+import { BASE_CHART_OPTIONS, KRW_PRICE_FORMAT, toChartTime } from "./chartUtils";
 import type { OhlcPoint, IndicatorPoint, FibLevels, PivotMarker } from "@/types";
 
 interface OverlayLine {
@@ -75,7 +75,7 @@ export default function PriceChart({
 
     candle.setData(
       ohlc.map((d) => ({
-        time: d.time as unknown as import("lightweight-charts").Time,
+        time: toChartTime(d.time),
         open: d.open,
         high: d.high,
         low: d.low,
@@ -96,7 +96,7 @@ export default function PriceChart({
       const validData = overlay.data
         .filter((d) => d.value !== null)
         .map((d) => ({
-          time: d.time as unknown as import("lightweight-charts").Time,
+          time: toChartTime(d.time),
           value: d.value as number,
         }));
       line.setData(validData);

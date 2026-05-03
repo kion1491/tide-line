@@ -1,5 +1,3 @@
-"use client";
-
 import type { DiagnosisResult } from "@/types";
 
 export default function DiagnosisInterpretation({ result }: { result: DiagnosisResult }) {
