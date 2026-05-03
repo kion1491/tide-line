@@ -16,6 +16,7 @@ from app.core.config import settings
 logger = logging.getLogger(__name__)
 
 _STOCK_LIST: list[dict[str, str]] = []
+_TICKER_TO_CORP: dict[str, str] = {}
 _LOADED = False
 _LOAD_ERROR: str = ""
 
@@ -57,11 +58,12 @@ def _fetch_corp_list_sync() -> list[dict[str, str]]:
 
 
 async def load_stock_list() -> None:
-    global _STOCK_LIST, _LOADED, _LOAD_ERROR
+    global _STOCK_LIST, _TICKER_TO_CORP, _LOADED, _LOAD_ERROR
     try:
         logger.info("주식 목록 로딩 시작 (DART API)...")
         loop = asyncio.get_event_loop()
         _STOCK_LIST = await loop.run_in_executor(None, _fetch_corp_list_sync)
+        _TICKER_TO_CORP = {s["ticker"]: s["corp_code"] for s in _STOCK_LIST if s.get("corp_code")}
         _LOADED = True
         logger.info(f"주식 목록 로딩 완료: {len(_STOCK_LIST)}개")
     except Exception as e:
@@ -113,7 +115,4 @@ def search_stocks(query: str, limit: int = 15) -> list[dict[str, str]]:
 
 def get_corp_code_by_ticker(ticker: str) -> str | None:
     """종목 코드(ticker)로 DART 8자리 법인코드 반환 (목록 로딩 완료 후에만 유효)"""
-    for stock in _STOCK_LIST:
-        if stock["ticker"] == ticker:
-            return stock.get("corp_code") or None
-    return None
+    return _TICKER_TO_CORP.get(ticker) or None

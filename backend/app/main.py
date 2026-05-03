@@ -31,7 +31,15 @@ async def lifespan(app: FastAPI):
 
 limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(title="Tide Line API", version="1.0.0", lifespan=lifespan)
+app = FastAPI(
+    title="Tide Line API",
+    version="1.0.0",
+    lifespan=lifespan,
+    # 운영 환경에서 API 문서 비활성화
+    docs_url=None if settings.is_production else "/docs",
+    redoc_url=None if settings.is_production else "/redoc",
+    openapi_url=None if settings.is_production else "/openapi.json",
+)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 

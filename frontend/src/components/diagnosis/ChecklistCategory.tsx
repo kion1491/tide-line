@@ -1,18 +1,12 @@
 import type { DiagnosisItem, ChartData } from "@/types";
 import ChecklistItem from "./ChecklistItem";
+import { CATEGORY_ICONS } from "@/constants/categories";
 
 interface ChecklistCategoryProps {
   category: string;
   items: DiagnosisItem[];
   chartData?: ChartData;
 }
-
-const CATEGORY_ICONS: Record<string, string> = {
-  "추세 구조": "📉",
-  "이동평균":  "📐",
-  "모멘텀":    "📊",
-  "추세 강도": "⚡",
-};
 
 export default function ChecklistCategory({ category, items, chartData }: ChecklistCategoryProps) {
   const checkedCount = items.filter((i) => i.checked).length;

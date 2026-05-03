@@ -1,7 +1,7 @@
 import type { DiagnosisResult } from "@/types";
 
 export default function DiagnosisInterpretation({ result }: { result: DiagnosisResult }) {
-  const { interpretation, fake_signals } = result;
+  const { interpretation } = result;
   const { summary, key_damages, recovery_signals, noise_warning } = interpretation;
 
   return (

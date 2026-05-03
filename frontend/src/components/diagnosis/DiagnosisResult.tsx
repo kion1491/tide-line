@@ -2,13 +2,11 @@ import type { DiagnosisResult as DiagnosisResultType, DiagnosisItem } from "@/ty
 import SummaryCard from "./SummaryCard";
 import ChecklistCategory from "./ChecklistCategory";
 import DiagnosisInterpretation from "./DiagnosisInterpretation";
+import { CATEGORY_ORDER } from "@/constants/categories";
 
 interface DiagnosisResultProps {
   result: DiagnosisResultType;
 }
-
-// 새 카테고리 순서
-const CATEGORY_ORDER = ["추세 구조", "이동평균", "모멘텀", "추세 강도"];
 
 function groupByCategory(items: DiagnosisItem[]): Record<string, DiagnosisItem[]> {
   return items.reduce<Record<string, DiagnosisItem[]>>((acc, item) => {

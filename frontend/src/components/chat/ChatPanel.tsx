@@ -81,20 +81,21 @@ export default function ChatPanel({ result }: ChatPanelProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
+    const text = buildContext(result);
     try {
-      await navigator.clipboard.writeText(buildContext(result));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      await navigator.clipboard.writeText(text);
     } catch {
       const el = document.createElement("textarea");
-      el.value = buildContext(result);
+      el.value = text;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
       document.body.removeChild(el);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
     }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
   }
 
   function handleOpenClaude() {

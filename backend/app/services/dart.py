@@ -207,7 +207,7 @@ class DartService:
         cache_key = f"{ticker}:{days}"
         if cache_key in _DISCLOSURE_CACHE:
             ts, val = _DISCLOSURE_CACHE[cache_key]
-            if (datetime.now() - ts).seconds < CACHE_TTL:
+            if (datetime.now() - ts).total_seconds() < CACHE_TTL:
                 return val
 
         loop = asyncio.get_event_loop()
